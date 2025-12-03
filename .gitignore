@@ -13,6 +13,11 @@ env/
 .venv/
 .rasa/
 
+
+# Rasa trained models — NEVER commit these (they are huge!)
+models/
+!models/.gitkeep        # we’ll add an empty file so the folder exists
+
 # Cache & locks
 model_cache/
 .locks/
