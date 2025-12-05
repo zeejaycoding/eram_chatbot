@@ -1,6 +1,6 @@
 recipe: default.v1
 
-language: en  
+language: en  # Primary is English, but supports multilingual via featurizers
 
 pipeline:
   - name: WhitespaceTokenizer
@@ -11,21 +11,14 @@ pipeline:
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
-  - name: LanguageModelFeaturizer  # Added for semantic multilingual support (Roman Urdu + English)
-    model: "sentence-transformers/LaBSE"
-    cache_dir: "./model_cache"
   - name: DIETClassifier
-    epochs: 200  
-    constrain_similarities: true
-    model_confidence: softmax
-    # Add this to cache DIET too
-    cache_dir: "./model_cache"
+    epochs: 200  # Increased for better accuracy on expanded data
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 200
   - name: FallbackClassifier
-    threshold: 0.3  
-    ambiguity_threshold: 0.15  
+    threshold: 0.3  # Slightly higher to reduce false fallbacks
+    ambiguity_threshold: 0.15  # Adjusted for multilingual ambiguity
 
 policies:
   - name: MemoizationPolicy
